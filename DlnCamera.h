@@ -5,6 +5,9 @@
 
 #include <QVector3D>
 
+namespace dln
+{
+
 class DlnCamera
 {
 public:
@@ -44,5 +47,7 @@ private:
     QVector3D m_projV;
     QVector3D m_projCenter;
 };
+
+}
 
 #endif // DLNCAMERA_H

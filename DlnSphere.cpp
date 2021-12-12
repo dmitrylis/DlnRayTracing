@@ -2,15 +2,11 @@
 
 #include <QtMath>
 
-DlnSphere::DlnSphere()
-{
+using namespace dln;
 
-}
+DlnSphere::DlnSphere() {}
 
-DlnSphere::~DlnSphere()
-{
-
-}
+DlnSphere::~DlnSphere() {}
 
 bool DlnSphere::testIntersection(const DlnRay &castRay, QVector3D &intersectionPoint, QVector3D &localNormal, QColor &localColor)
 {

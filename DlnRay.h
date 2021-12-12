@@ -3,6 +3,9 @@
 
 #include <QVector3D>
 
+namespace dln
+{
+
 class DlnRay
 {
 public:
@@ -18,5 +21,7 @@ private:
     QVector3D m_endPoint;
     QVector3D m_direction;
 };
+
+}
 
 #endif // DLNRAY_H

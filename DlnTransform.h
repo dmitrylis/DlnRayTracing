@@ -9,6 +9,9 @@
 constexpr bool FWDTFORM = true;
 constexpr bool BCKTFORM = false;
 
+namespace dln
+{
+
 class DlnTransform
 {
 public:
@@ -33,5 +36,7 @@ private:
     QMatrix4x4 m_fwdTransform;
     QMatrix4x4 m_bckTransform;
 };
+
+}
 
 #endif // DLNTRANSFORM_H

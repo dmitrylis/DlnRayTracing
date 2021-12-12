@@ -1,5 +1,7 @@
 #include "DlnRay.h"
 
+using namespace dln;
+
 DlnRay::DlnRay() {}
 
 DlnRay::DlnRay(const QVector3D &startPoint, const QVector3D &endPoint)

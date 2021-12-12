@@ -1,5 +1,7 @@
 #include "DlnGeometryObject.h"
 
+using namespace  dln;
+
 DlnGeometryObject::DlnGeometryObject()
 {
 }

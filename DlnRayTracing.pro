@@ -13,6 +13,7 @@ SOURCES += \
         DlnCamera.cpp \
         DlnGeometryObject.cpp \
         DlnLightObject.cpp \
+        DlnPlane.cpp \
         DlnPointLight.cpp \
         DlnRay.cpp \
         DlnScene.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     DlnCamera.h \
     DlnGeometryObject.h \
     DlnLightObject.h \
+    DlnPlane.h \
     DlnPointLight.h \
     DlnRay.h \
     DlnScene.h \

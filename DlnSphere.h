@@ -3,6 +3,8 @@
 
 #include "DlnGeometryObject.h"
 
+namespace dln
+{
 
 class DlnSphere : public DlnGeometryObject
 {
@@ -12,5 +14,7 @@ public:
 
     bool testIntersection(const DlnRay &castRay, QVector3D &intersectionPoint, QVector3D &localNormal, QColor &localColor) override;
 };
+
+}
 
 #endif // DLNSPHERE_H

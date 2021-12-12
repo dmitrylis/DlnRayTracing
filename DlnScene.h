@@ -8,6 +8,9 @@
 #include <QImage>
 #include <QSharedPointer>
 
+namespace dln
+{
+
 class DlnScene
 {
 public:
@@ -22,5 +25,7 @@ private:
     QVector<QSharedPointer<DlnGeometryObject>> m_geometryObjects;
     QVector<QSharedPointer<DlnLightObject>> m_lightObjects;
 };
+
+}
 
 #endif // DLNSCENE_H

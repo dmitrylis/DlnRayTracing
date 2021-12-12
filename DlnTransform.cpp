@@ -3,7 +3,7 @@
 #include <QtMath>
 #include <QVector4D>
 
-#include <QDebug>
+using namespace dln;
 
 DlnTransform::DlnTransform()
 {
@@ -104,11 +104,15 @@ DlnTransform DlnTransform::operator=(const DlnTransform &rhs)
     return *this; // warning
 }
 
+namespace dln {
+
 DlnTransform operator*(const DlnTransform &lhs, const DlnTransform &rhs)
 {
     const QMatrix4x4 fwdResult = lhs.m_fwdTransform * rhs.m_bckTransform;
 
     return DlnTransform(fwdResult, fwdResult.inverted());
+}
+
 }
 
 

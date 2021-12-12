@@ -8,6 +8,9 @@
 #include <QVector3D>
 #include <QSharedPointer>
 
+namespace dln
+{
+
 class DlnLightObject
 {
 public:
@@ -29,5 +32,7 @@ protected:
     QVector3D m_position;
     float m_intensity {0.0};
 };
+
+}
 
 #endif // DLNLIGHTOBJECT_H

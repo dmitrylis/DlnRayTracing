@@ -1,8 +1,8 @@
 #include "DlnCamera.h"
 
-DlnCamera::DlnCamera()
-{
-}
+using namespace dln;
+
+DlnCamera::DlnCamera() {}
 
 QVector3D DlnCamera::position() const
 {

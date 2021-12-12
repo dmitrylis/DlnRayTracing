@@ -1,14 +1,10 @@
 #include "DlnLightObject.h"
 
-DlnLightObject::DlnLightObject()
-{
+using namespace dln;
 
-}
+DlnLightObject::DlnLightObject() {}
 
-DlnLightObject::~DlnLightObject()
-{
-
-}
+DlnLightObject::~DlnLightObject() {}
 
 void DlnLightObject::setColor(const QColor &color)
 {

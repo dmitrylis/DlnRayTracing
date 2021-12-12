@@ -3,6 +3,9 @@
 
 #include "DlnLightObject.h"
 
+namespace dln
+{
+
 class DlnPointLight : public DlnLightObject
 {
 public:
@@ -16,5 +19,7 @@ public:
                              QColor &color,
                              float &intensity) const override;
 };
+
+}
 
 #endif // DLNPOINTLIGHT_H

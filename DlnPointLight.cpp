@@ -2,16 +2,15 @@
 
 #include <QtMath>
 
+using namespace dln;
+
 DlnPointLight::DlnPointLight()
 {
     m_color = Qt::white;
     m_intensity = 1.0;
 }
 
-DlnPointLight::~DlnPointLight()
-{
-
-}
+DlnPointLight::~DlnPointLight() {}
 
 bool DlnPointLight::computeIllumination(const QVector3D &intersectionPoint, const QVector3D &localNormal, const QVector<QSharedPointer<DlnGeometryObject>> &objects, const QSharedPointer<DlnGeometryObject> &currentObject, QColor &color, float &intensity) const
 {

@@ -8,10 +8,12 @@
 #include <QQuickItem>
 #include <QtQml/qqml.h>
 
+namespace dln {
+
 class DlnView : public QQuickItem
 {
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(DlnView)
 
 public:
     explicit DlnView(QQuickItem *parent = nullptr);
@@ -28,5 +30,7 @@ private:
 
     DlnScene m_scene;
 };
+
+}
 
 #endif // DLNVIEW_H

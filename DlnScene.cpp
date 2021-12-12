@@ -3,6 +3,8 @@
 #include "DlnSphere.h"
 #include "DlnPointLight.h"
 
+using namespace dln;
+
 DlnScene::DlnScene() {
     // setup camera
     m_camera.setPosition(QVector3D(0.0, -10.0, 0.0));

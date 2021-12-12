@@ -12,6 +12,8 @@ constexpr int WIDTH = 1024;
 constexpr int HEIGHT = 768;
 }
 
+using namespace dln;
+
 DlnView::DlnView(QQuickItem *parent) : QQuickItem(parent)
 {
     setFlag(QQuickItem::ItemHasContents);

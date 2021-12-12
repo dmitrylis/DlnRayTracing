@@ -7,6 +7,9 @@
 #include <QVector3D>
 #include <QColor>
 
+namespace dln
+{
+
 class DlnGeometryObject
 {
 public:
@@ -25,5 +28,7 @@ protected:
     QColor m_baseColor {Qt::green};
     DlnTransform m_transform;
 };
+
+}
 
 #endif // DLNGEOMETRYOBJECT_H
