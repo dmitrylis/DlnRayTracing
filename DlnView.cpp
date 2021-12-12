@@ -10,6 +10,12 @@
 namespace {
 constexpr int WIDTH = 1024;
 constexpr int HEIGHT = 768;
+
+//constexpr int WIDTH = 400;
+//constexpr int HEIGHT = 300;
+
+//constexpr int WIDTH = 200;
+//constexpr int HEIGHT = 150;
 }
 
 using namespace dln;

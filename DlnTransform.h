@@ -6,11 +6,11 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 
-constexpr bool FWDTFORM = true;
-constexpr bool BCKTFORM = false;
-
 namespace dln
 {
+
+constexpr bool FWDTFORM = true;
+constexpr bool BCKTFORM = false;
 
 class DlnTransform
 {

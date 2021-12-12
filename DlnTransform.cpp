@@ -37,19 +37,19 @@ void DlnTransform::setTransform(const QVector3D &translation, const QVector3D &r
     translationMatrix.setColumn(3, QVector4D(translation, 1.0));
 
     // rotation
-    rotationMatrixX.setRow(1, QVector4D(0.0, qCos(rotation[0]), -qSin(rotation[0]), 0.0));
-    rotationMatrixX.setRow(2, QVector4D(0.0, qSin(rotation[0]), qCos(rotation[0]), 0.0));
+    rotationMatrixX.setRow(1, QVector4D(0.0, qCos(rotation.x()), -qSin(rotation.x()), 0.0));
+    rotationMatrixX.setRow(2, QVector4D(0.0, qSin(rotation.x()), qCos(rotation.x()), 0.0));
 
-    rotationMatrixY.setRow(0, QVector4D(qCos(rotation[1]), 0.0, qSin(rotation[1]), 0.0));
-    rotationMatrixY.setRow(2, QVector4D(-qSin(rotation[1]), 0.0, qCos(rotation[1]), 0.0));
+    rotationMatrixY.setRow(0, QVector4D(qCos(rotation.y()), 0.0, qSin(rotation.y()), 0.0));
+    rotationMatrixY.setRow(2, QVector4D(-qSin(rotation.y()), 0.0, qCos(rotation.y()), 0.0));
 
-    rotationMatrixZ.setRow(0, QVector4D(qCos(rotation[2]), -qSin(rotation[2]), 0.0, 0.0));
-    rotationMatrixZ.setRow(1, QVector4D(qSin(rotation[2]), qCos(rotation[2]), 0.0, 0.0));
+    rotationMatrixZ.setRow(0, QVector4D(qCos(rotation.z()), -qSin(rotation.z()), 0.0, 0.0));
+    rotationMatrixZ.setRow(1, QVector4D(qSin(rotation.z()), qCos(rotation.z()), 0.0, 0.0));
 
     // scale
-    scaleMatrix.setRow(0 , QVector4D(scale[0], 0.0, 0.0, 0.0));
-    scaleMatrix.setRow(1 , QVector4D(0.0, scale[1], 0.0, 0.0));
-    scaleMatrix.setRow(2 , QVector4D(0.0, 0.0, scale[2], 0.0));
+    scaleMatrix.setRow(0 , QVector4D(scale.x(), 0.0, 0.0, 0.0));
+    scaleMatrix.setRow(1 , QVector4D(0.0, scale.y(), 0.0, 0.0));
+    scaleMatrix.setRow(2 , QVector4D(0.0, 0.0, scale.z(), 0.0));
 
     // combine transformations
     m_fwdTransform = translationMatrix * scaleMatrix * rotationMatrixX * rotationMatrixY * rotationMatrixZ;
@@ -70,11 +70,11 @@ DlnRay DlnTransform::apply(const DlnRay &ray, bool directionFlag)
 {
     if (directionFlag)
     {
-        return DlnRay(apply(ray.startPoint(), FWDTFORM), apply(ray.endPoint(), FWDTFORM));
+        return DlnRay(apply(ray.startPoint(), dln::FWDTFORM), apply(ray.endPoint(), dln::FWDTFORM));
     }
     else
     {
-        return DlnRay(apply(ray.startPoint(), BCKTFORM), apply(ray.endPoint(), BCKTFORM));
+        return DlnRay(apply(ray.startPoint(), dln::BCKTFORM), apply(ray.endPoint(), dln::BCKTFORM));
     }
 }
 

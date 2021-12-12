@@ -11,7 +11,7 @@ DlnSphere::~DlnSphere() {}
 bool DlnSphere::testIntersection(const DlnRay &castRay, QVector3D &intersectionPoint, QVector3D &localNormal, QColor &localColor)
 {
     // copy the ray and apply BACKWARDS transform
-    DlnRay bckRay = m_transform.apply(castRay, BCKTFORM);
+    DlnRay bckRay = m_transform.apply(castRay, dln::BCKTFORM);
 
     // compute "a", "b" and "c" values
     QVector3D vhat = bckRay.direction().normalized();
@@ -27,8 +27,8 @@ bool DlnSphere::testIntersection(const DlnRay &castRay, QVector3D &intersectionP
     {
         // compute intersection point
         const float numSqrt = qSqrt(intTest);
-        double t1 = (-b + numSqrt) * 0.5;
-        double t2 = (-b - numSqrt) * 0.5;
+        float t1 = (-b + numSqrt) * 0.5;
+        float t2 = (-b - numSqrt) * 0.5;
 
         if (t1 < 0.0 || t2 < 0.0)
         {
@@ -45,11 +45,11 @@ bool DlnSphere::testIntersection(const DlnRay &castRay, QVector3D &intersectionP
         }
 
         // transform the intersection point back into world coordinates
-        intersectionPoint = m_transform.apply(poi, FWDTFORM);
+        intersectionPoint = m_transform.apply(poi, dln::FWDTFORM);
 
         // compute the local normal (for sphere it's easy)
-        QVector3D origin(0.0, 0.0, 0.0);
-        QVector3D newOrigin = m_transform.apply(origin, FWDTFORM);
+        QVector3D origin; // zero point
+        QVector3D newOrigin = m_transform.apply(origin, dln::FWDTFORM);
 
         localNormal = intersectionPoint - newOrigin;
         localNormal.normalize();
