@@ -12,6 +12,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 SOURCES += \
         DlnCamera.cpp \
         DlnGeometryObject.cpp \
+        DlnImage.cpp \
         DlnLightObject.cpp \
         DlnPlane.cpp \
         DlnPointLight.cpp \
@@ -39,6 +40,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     DlnCamera.h \
     DlnGeometryObject.h \
+    DlnImage.h \
     DlnLightObject.h \
     DlnPlane.h \
     DlnPointLight.h \

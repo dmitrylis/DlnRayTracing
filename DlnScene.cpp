@@ -62,7 +62,7 @@ void DlnScene::initialize(const QSizeF &viewSize)
     m_camera.updateCameraGeometry();
 }
 
-bool DlnScene::render(QImage &outputImg)
+bool DlnScene::render(DlnImage &outputImg)
 {
     const int width = outputImg.width();
     const int height = outputImg.height();
@@ -153,11 +153,7 @@ bool DlnScene::render(QImage &outputImg)
                     green *= closestLocalColor.greenF();
                     blue *= closestLocalColor.blueF();
 
-                    red = qBound<float>(0.0, red, 1.0);
-                    green = qBound<float>(0.0, green, 1.0);
-                    blue = qBound<float>(0.0, blue, 1.0);
-
-                    outputImg.setPixelColor(x, y, QColor(255.0 * red, 255.0 * green, 255.0 * blue));
+                    outputImg.setWidePixelColor(x, y, red, green, blue);
                 }
             }
         }

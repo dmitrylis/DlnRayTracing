@@ -25,34 +25,37 @@ DlnView::DlnView(QQuickItem *parent) : QQuickItem(parent)
     setFlag(QQuickItem::ItemHasContents);
 
     setSize(QSizeF(::WIDTH, ::HEIGHT));
-    m_Img = QImage(::WIDTH, ::HEIGHT, QImage::Format_RGB32);
+    m_image = DlnImage(size().toSize(), DlnImage::Format_RGB32);
 
     m_scene.initialize(size());
 
     // test code
-    m_scene.render(m_Img);
+    m_scene.render(m_image);
+    m_image.display();
 
-//    connect(this, &QQuickItem::widthChanged, [this] {
-//        m_Img = QImage(size().width(), size().height(), QImage::Format_RGB32);
-//        m_scene.initialize(size());
-//        m_scene.render(m_Img);
-//        update();
-//    });
-
-//    connect(this, &QQuickItem::heightChanged, [this] {
-//        m_Img = QImage(size().width(), size().height(), QImage::Format_RGB32);
-//        m_scene.initialize(size());
-//        m_scene.render(m_Img);
-//        update();
-//    });
+    //connect(this, &QQuickItem::widthChanged, [this] {
+    //    m_image = DlnImage(size().toSize(), DlnImage::Format_RGB32);
+    //    m_scene.initialize(size());
+    //    m_scene.render(m_image);
+    //    m_image.display();
+    //    update();
+    //});
+    //
+    //connect(this, &QQuickItem::heightChanged, [this] {
+    //    m_image = DlnImage(size().toSize(), DlnImage::Format_RGB32);
+    //    m_scene.initialize(size());
+    //    m_scene.render(m_image);
+    //    m_image.display();
+    //    update();
+    //});
 }
 
-void DlnView::updateFrame(const QImage &img)
+void DlnView::updateFrame(const DlnImage &image)
 {
     do
     {
-        QMutexLocker locker(&m_imgMutex);
-        m_Img = img.copy();
+        QMutexLocker locker(&m_imageMutex);
+        //m_image = image.copy();
     }
     while (false);
 
@@ -61,8 +64,8 @@ void DlnView::updateFrame(const QImage &img)
 
 QSGNode *DlnView::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
 {
-    QMutexLocker locker(&m_imgMutex);
-    if (m_Img.isNull())
+    QMutexLocker locker(&m_imageMutex);
+    if (m_image.isNull())
     {
         return old;
     }
@@ -73,7 +76,7 @@ QSGNode *DlnView::updatePaintNode(QSGNode *old, UpdatePaintNodeData *)
         node = new QSGSimpleTextureNode();
     }
 
-    QSGTexture *t = window()->createTextureFromImage(m_Img.scaled(boundingRect().size().toSize()));
+    QSGTexture *t = window()->createTextureFromImage(m_image.scaled(boundingRect().size().toSize()));
 
     if (t)
     {
