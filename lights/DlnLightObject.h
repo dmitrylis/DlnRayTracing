@@ -1,7 +1,7 @@
 #ifndef DLNLIGHTOBJECT_H
 #define DLNLIGHTOBJECT_H
 
-#include "DlnGeometryObject.h"
+#include "primitives/DlnGeometryObject.h"
 
 #include <QColor>
 #include <QVector>

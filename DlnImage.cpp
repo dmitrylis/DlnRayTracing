@@ -22,13 +22,26 @@ void DlnImage::setWidePixelColor(int x, int y, float red, float green, float blu
 
 void DlnImage::display()
 {
-    for (int x = 0; x < width(); ++x)
+    //for (int x = 0; x < width(); ++x)
+    //{
+    //    for (int y = 0; y < height(); ++y)
+    //    {
+    //        QRgb pixelData = pixel(i,j);
+    //
+    //        setPixelColor(x, y, QColor(255 * m_rChannel[x][y] / m_channelFactor,
+    //                                   255 * m_gChannel[x][y] / m_channelFactor,
+    //                                   255 * m_bChannel[x][y] / m_channelFactor));
+    //    }
+    //}
+
+    for (int y = 0; y < height(); ++y)
     {
-        for (int y = 0; y < height(); ++y)
-        {
-            setPixelColor(x, y, QColor(255 * m_rChannel.at(x).at(y) / m_channelFactor,
-                                       255 * m_gChannel.at(x).at(y) / m_channelFactor,
-                                       255 * m_bChannel.at(x).at(y) / m_channelFactor));
+        QRgb *line = reinterpret_cast<QRgb*>(scanLine(y));
+        for (int x = 0; x < width(); ++x) {
+            QColor pixelColor(255 * m_rChannel[x][y] / m_channelFactor,
+                              255 * m_gChannel[x][y] / m_channelFactor,
+                              255 * m_bChannel[x][y] / m_channelFactor);
+            line[x] = pixelColor.rgb();
         }
     }
 }

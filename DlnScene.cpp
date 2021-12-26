@@ -1,8 +1,8 @@
 #include "DlnScene.h"
 
-#include "DlnSphere.h"
-#include "DlnPlane.h"
-#include "DlnPointLight.h"
+#include "primitives/DlnSphere.h"
+#include "primitives/DlnPlane.h"
+#include "lights/DlnPointLight.h"
 
 #include <limits>
 
@@ -10,7 +10,7 @@ using namespace dln;
 
 DlnScene::DlnScene() {
     // setup camera
-    m_camera.setPosition(QVector3D(0.0, -10.0, -1.0));
+    m_camera.setPosition(QVector3D(0.0, -11.0, -1.0));
     m_camera.setLookAt(QVector3D(0.0, 0.0, 0.0));
     m_camera.setUp(QVector3D(0.0, 0.0, 1.0));
     m_camera.setProjHSize(0.25);
@@ -36,12 +36,34 @@ DlnScene::DlnScene() {
     sphere3->setBaseColor(Qt::blue);
     m_geometryObjects.push_back(sphere3);
 
+    // create white box
     QSharedPointer<DlnPlane> plane1(new DlnPlane());
     DlnTransform plane1Transform;
-    plane1Transform.setTransform(QVector3D(0.0, 0.0, 1.0), QVector3D(0.0, 0.0, 0.0), QVector3D(3.0, 3.0, 3.0));
+    plane1Transform.setTransform(QVector3D(0.0, 0.0, 1.0), QVector3D(0.0, 0.0, 0.0), QVector3D(2.5, 3.5, 2.5));
     plane1->setTransform(plane1Transform);
-    plane1->setBaseColor(Qt::yellow);
+    plane1->setBaseColor(Qt::white);
     m_geometryObjects.push_back(plane1);
+
+    //QSharedPointer<DlnPlane> plane2(new DlnPlane());
+    //DlnTransform plane2Transform;
+    //plane2Transform.setTransform(QVector3D(2.5, 0.0, 0.0), QVector3D(0.0, 1.57, 0.0), QVector3D(2.5, 3.5, 2.5));
+    //plane2->setTransform(plane2Transform);
+    //plane2->setBaseColor(Qt::white);
+    //m_geometryObjects.push_back(plane2);
+    //
+    //QSharedPointer<DlnPlane> plane3(new DlnPlane());
+    //DlnTransform plane3Transform;
+    //plane3Transform.setTransform(QVector3D(-2.5, 0.0, 0.0), QVector3D(0.0, -1.57, 0.0), QVector3D(2.5, 3.5, 2.5));
+    //plane3->setTransform(plane3Transform);
+    //plane3->setBaseColor(Qt::white);
+    //m_geometryObjects.push_back(plane3);
+    //
+    //QSharedPointer<DlnPlane> plane4(new DlnPlane());
+    //DlnTransform plane4Transform;
+    //plane4Transform.setTransform(QVector3D(0.0, 3.0, 0.0), QVector3D(-1.57, 0.0, 0.0), QVector3D(2.5, 3.5, 2.5));
+    //plane4->setTransform(plane4Transform);
+    //plane4->setBaseColor(Qt::white);
+    //m_geometryObjects.push_back(plane4);
 
     // create test lights
     QSharedPointer<DlnPointLight> light1(new DlnPointLight());

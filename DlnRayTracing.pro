@@ -10,19 +10,31 @@ QML_IMPORT_MAJOR_VERSION = 1
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        main.cpp \
         DlnCamera.cpp \
-        DlnGeometryObject.cpp \
         DlnImage.cpp \
-        DlnLightObject.cpp \
-        DlnPlane.cpp \
-        DlnPointLight.cpp \
         DlnRay.cpp \
         DlnScene.cpp \
-        DlnSphere.cpp \
         DlnTransform.cpp \
         DlnView.cpp \
-        SceneItem.cpp \
-        main.cpp
+        primitives/DlnGeometryObject.cpp \
+        primitives/DlnPlane.cpp \
+        primitives/DlnSphere.cpp \
+        lights/DlnLightObject.cpp \
+        lights/DlnPointLight.cpp
+
+HEADERS += \
+        DlnCamera.h \
+        DlnImage.h \
+        DlnRay.h \
+        DlnScene.h \
+        DlnTransform.h \
+        DlnView.h \
+        primitives/DlnGeometryObject.h \
+        primitives/DlnPlane.h \
+        primitives/DlnSphere.h \
+        lights/DlnLightObject.h \
+        lights/DlnPointLight.h
 
 RESOURCES += qml.qrc
 
@@ -36,17 +48,3 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-HEADERS += \
-    DlnCamera.h \
-    DlnGeometryObject.h \
-    DlnImage.h \
-    DlnLightObject.h \
-    DlnPlane.h \
-    DlnPointLight.h \
-    DlnRay.h \
-    DlnScene.h \
-    DlnSphere.h \
-    DlnTransform.h \
-    DlnView.h \
-    SceneItem.h

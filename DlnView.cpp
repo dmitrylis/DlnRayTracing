@@ -8,8 +8,11 @@
 #include <QtMath>
 
 namespace {
-constexpr int WIDTH = 1024;
-constexpr int HEIGHT = 768;
+//constexpr int WIDTH = 1024;
+//constexpr int HEIGHT = 768;
+
+constexpr int WIDTH = 800;
+constexpr int HEIGHT = 600;
 
 //constexpr int WIDTH = 400;
 //constexpr int HEIGHT = 300;

@@ -3,8 +3,8 @@
 
 #include "DlnImage.h"
 #include "DlnCamera.h"
-#include "DlnGeometryObject.h"
-#include "DlnLightObject.h"
+#include "primitives/DlnGeometryObject.h"
+#include "lights/DlnLightObject.h"
 
 #include <QSharedPointer>
 
