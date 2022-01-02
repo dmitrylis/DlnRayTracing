@@ -6,7 +6,17 @@ DlnLightObject::DlnLightObject() {}
 
 DlnLightObject::~DlnLightObject() {}
 
-void DlnLightObject::setColor(const QColor &color)
+DlnColor DlnLightObject::color() const
+{
+    return m_color;
+}
+
+QVector3D DlnLightObject::position() const
+{
+    return m_position;
+}
+
+void DlnLightObject::setColor(const DlnColor &color)
 {
     m_color = color;
 }

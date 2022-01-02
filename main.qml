@@ -12,9 +12,4 @@ Window {
     DlnView {
         anchors.fill: parent
     }
-
-    // TODO: remove old stuff
-    // SceneItem {
-    //     anchors.fill: parent
-    // }
 }

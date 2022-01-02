@@ -1,18 +1,25 @@
 #include "DlnPointLight.h"
 
+#include "primitives/DlnGeometryObject.h"
+
 #include <QtMath>
 
 using namespace dln;
 
 DlnPointLight::DlnPointLight()
 {
-    m_color = Qt::white;
+    m_color = DlnColor(Qt::white);
     m_intensity = 1.0;
 }
 
 DlnPointLight::~DlnPointLight() {}
 
-bool DlnPointLight::computeIllumination(const QVector3D &intersectionPoint, const QVector3D &localNormal, const QVector<QSharedPointer<DlnGeometryObject>> &objects, const QSharedPointer<DlnGeometryObject> &currentObject, QColor &color, float &intensity) const
+bool DlnPointLight::computeIllumination(const QVector3D &intersectionPoint,
+                                        const QVector3D &localNormal,
+                                        const QVector<QSharedPointer<DlnGeometryObject>> &objects,
+                                        const QSharedPointer<DlnGeometryObject> &currentObject,
+                                        DlnColor &color,
+                                        float &intensity) const
 {
     // vector from the intersection point to the light
     const QVector3D toLight = (m_position - intersectionPoint).normalized();
@@ -20,15 +27,15 @@ bool DlnPointLight::computeIllumination(const QVector3D &intersectionPoint, cons
     // construct a ray from the point of intersection to the light
     DlnRay lightRay (intersectionPoint, intersectionPoint + toLight);
 
-    // check the intersection with all of the objects except of current one
+    // check the intersection with all of the objects except the current one
     QVector3D poi;
     QVector3D poiNormal;
-    QColor poiColor;
+    DlnColor poiColor;
     bool validPoint = false;
 
     for (auto sceneObject : objects)
     {
-        if (sceneObject != currentObject)
+        if (sceneObject != currentObject) // TODO: keep in mind
         {
             validPoint = sceneObject->testIntersection(lightRay, poi, poiNormal, poiColor);
         }

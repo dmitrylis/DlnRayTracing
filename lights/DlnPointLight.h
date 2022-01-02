@@ -16,7 +16,7 @@ public:
                              const QVector3D &localNormal,
                              const QVector<QSharedPointer<DlnGeometryObject>> &objects,
                              const QSharedPointer<DlnGeometryObject> &currentObject,
-                             QColor &color,
+                             DlnColor &color,
                              float &intensity) const override;
 };
 

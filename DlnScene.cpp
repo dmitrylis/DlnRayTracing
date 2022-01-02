@@ -3,6 +3,7 @@
 #include "primitives/DlnSphere.h"
 #include "primitives/DlnPlane.h"
 #include "lights/DlnPointLight.h"
+#include "materials/DlnSimpleMaterial.h"
 
 #include <limits>
 
@@ -17,23 +18,29 @@ DlnScene::DlnScene() {
     //m_camera.setAspectRatio(viewSize.width() / viewSize.height());
     m_camera.updateCameraGeometry();
 
+    // create some material
+    QSharedPointer<DlnSimpleMaterial> simpleMaterial(new DlnSimpleMaterial());
+    simpleMaterial->setColor(DlnColor(Qt::red));
+    simpleMaterial->setReflictivity(0.5);
+    simpleMaterial->setShininess(10.0);
+
     // create test objects
     QSharedPointer<DlnSphere> sphere1(new DlnSphere());
-    sphere1->setBaseColor(Qt::red);
+    sphere1->setMaterial(simpleMaterial);
     m_geometryObjects.push_back(sphere1);
 
     QSharedPointer<DlnSphere> sphere2(new DlnSphere());
     DlnTransform sphere2Transform;
-    sphere2Transform.setTransform(QVector3D(-1.5, 0.0, 1.0), QVector3D(0.0, 0.0, 0.0), QVector3D(0.5, 0.5, 1.0));
+    sphere2Transform.setTransform(QVector3D(-1.5, 0.0, 0.5), QVector3D(0.0, 0.0, 0.0), QVector3D(0.5, 0.5, 0.5));
     sphere2->setTransform(sphere2Transform);
-    sphere2->setBaseColor(Qt::green);
+    sphere2->setBaseColor(DlnColor(Qt::green));
     m_geometryObjects.push_back(sphere2);
 
     QSharedPointer<DlnSphere> sphere3(new DlnSphere());
     DlnTransform sphere3Transform;
-    sphere3Transform.setTransform(QVector3D(1.5, -1.0, 0.2), QVector3D(0.0, 0.0, 0.0), QVector3D(0.5, 0.5, 1.0));
+    sphere3Transform.setTransform(QVector3D(1.5, 0.0, 0.5), QVector3D(0.0, 0.0, 0.0), QVector3D(0.5, 0.5, 0.5));
     sphere3->setTransform(sphere3Transform);
-    sphere3->setBaseColor(Qt::blue);
+    sphere3->setBaseColor(DlnColor(Qt::blue));
     m_geometryObjects.push_back(sphere3);
 
     // create white box
@@ -41,7 +48,7 @@ DlnScene::DlnScene() {
     DlnTransform plane1Transform;
     plane1Transform.setTransform(QVector3D(0.0, 0.0, 1.0), QVector3D(0.0, 0.0, 0.0), QVector3D(2.5, 3.5, 2.5));
     plane1->setTransform(plane1Transform);
-    plane1->setBaseColor(Qt::white);
+    plane1->setBaseColor(DlnColor(Qt::white));
     m_geometryObjects.push_back(plane1);
 
     //QSharedPointer<DlnPlane> plane2(new DlnPlane());
@@ -67,14 +74,19 @@ DlnScene::DlnScene() {
 
     // create test lights
     QSharedPointer<DlnPointLight> light1(new DlnPointLight());
-    light1->setColor(Qt::white);
-    light1->setPosition(QVector3D(5.0, -10.0, -5.0));
+    light1->setColor(DlnColor(Qt::white));
+    light1->setPosition(QVector3D(-10.0, -10.0, -10.0));
     m_lightObjects.push_back(light1);
 
     QSharedPointer<DlnPointLight> light2(new DlnPointLight());
-    light2->setColor(Qt::white);
-    light2->setPosition(QVector3D(-5.0, -15.0, -15.0));
+    light2->setColor(DlnColor(Qt::white));
+    light2->setPosition(QVector3D(0.0, -10.0, -10.0));
     m_lightObjects.push_back(light2);
+
+//    QSharedPointer<DlnPointLight> light3(new DlnPointLight());
+//    light3->setColor(DlnColor(Qt::white));
+//    light3->setPosition(QVector3D(10.0, -10.0, -10.0));
+//    m_lightObjects.push_back(light3);
 }
 
 void DlnScene::initialize(const QSizeF &viewSize)
@@ -90,9 +102,6 @@ bool DlnScene::render(DlnImage &outputImg)
     const int height = outputImg.height();
 
     DlnRay cameraRay;
-    QVector3D intersectionPoint;
-    QVector3D localNormal;
-    QColor localColor;
 
     const float xFactor = 1.0 / (static_cast<float>(width) / 2.0);
     const float yFactor = 1.0 / (static_cast<float>(height) / 2.0);
@@ -109,77 +118,62 @@ bool DlnScene::render(DlnImage &outputImg)
             m_camera.generateRay(normX, normY, cameraRay);
 
             // test for intersections with all objects in the scene
-            QSharedPointer<DlnGeometryObject> closestObject;
-            QVector3D closestIntersectionPoint;
-            QVector3D closestLocalNormal;
-            QColor closestLocalColor;
-            bool intersectionFound = false;
-            float minDistance = std::numeric_limits<float>::max();
-
-            for (auto currentObject : m_geometryObjects)
-            {
-                if (currentObject->testIntersection(cameraRay, intersectionPoint, localNormal, localColor))
-                {
-                    intersectionFound = true;
-
-                    // compute the distance between the camera and the point of intersection
-                    const float distance = (intersectionPoint - cameraRay.startPoint()).length();
-
-                    // if this object is the closest to the camera - store the reference
-                    if (distance < minDistance)
-                    {
-                        minDistance = distance;
-
-                        closestObject = currentObject;
-                        closestIntersectionPoint = intersectionPoint;
-                        closestLocalNormal = localNormal;
-                        closestLocalColor = localColor;
-                    }
-                }
-            }
+            QSharedPointer<DlnGeometryObject> object;
+            QVector3D intersectionPoint;
+            QVector3D localNormal;
+            DlnColor localColor; // TODO: remove
 
             // compute the illumination of the closest object
-            if (intersectionFound)
+            if (castRay(cameraRay, object, intersectionPoint, localNormal, localColor))
             {
-                // compute the intensity of illumination
-                float intensity = 0.0;
-                QColor color;
-                float red = 0.0;
-                float green = 0.0;
-                float blue = 0.0;
-                bool illuminated = false;
-                bool illuminationFound = false;
+                const DlnColor color = object->computeColor(m_geometryObjects,
+                                                            m_lightObjects,
+                                                            object, // stupid thing
+                                                            cameraRay,
+                                                            intersectionPoint,
+                                                            localNormal);
 
-                for (auto currentLight : m_lightObjects)
-                {
-                    illuminated = currentLight->computeIllumination(closestIntersectionPoint,
-                                                                    closestLocalNormal,
-                                                                    m_geometryObjects,
-                                                                    closestObject,
-                                                                    color,
-                                                                    intensity);
-
-                    if (illuminated)
-                    {
-                        illuminationFound = true;
-
-                        red += color.redF() * intensity;
-                        green += color.greenF() * intensity;
-                        blue += color.blueF() * intensity;
-                    }
-                }
-
-                if (illuminationFound)
-                {
-                    red *= closestLocalColor.redF();
-                    green *= closestLocalColor.greenF();
-                    blue *= closestLocalColor.blueF();
-
-                    outputImg.setWidePixelColor(x, y, red, green, blue);
-                }
+                outputImg.setWidePixelColor(x, y, color.red(), color.green(), color.blue());
             }
         }
     }
 
     return true;
+}
+
+bool DlnScene::castRay(const DlnRay &castRay,
+                       QSharedPointer<DlnGeometryObject> &object,
+                       QVector3D &intersectionPoint,
+                       QVector3D &localNormal,
+                       DlnColor &localColor)
+{
+    QVector3D closestIntersectionPoint;
+    QVector3D closestLocalNormal;
+    DlnColor closestLocalColor;
+    bool intersectionFound = false;
+    float minDistance = std::numeric_limits<float>::max();
+
+    for (auto currentObject : m_geometryObjects)
+    {
+        if (currentObject->testIntersection(castRay, closestIntersectionPoint, closestLocalNormal, closestLocalColor))
+        {
+            intersectionFound = true;
+
+            // compute the distance between the camera and the point of intersection
+            const float distance = (closestIntersectionPoint - castRay.startPoint()).length();
+
+            // if this object is the closest to the camera - store the reference
+            if (distance < minDistance)
+            {
+                minDistance = distance;
+
+                object = currentObject;
+                intersectionPoint = closestIntersectionPoint;
+                localNormal = closestLocalNormal;
+                localColor = closestLocalColor;
+            }
+        }
+    }
+
+    return intersectionFound;
 }

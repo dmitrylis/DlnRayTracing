@@ -29,7 +29,6 @@ public:
     QVector3D apply(const QVector3D &vector, bool directionFlag);
 
     DlnTransform operator= (const DlnTransform &rhs);
-
     friend DlnTransform operator* (const DlnTransform &lhs, const DlnTransform &rhs);
 
 private:

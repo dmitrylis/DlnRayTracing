@@ -12,7 +12,10 @@ public:
     DlnSphere();
     ~DlnSphere() override;
 
-    bool testIntersection(const DlnRay &castRay, QVector3D &intersectionPoint, QVector3D &localNormal, QColor &localColor) override;
+    bool testIntersection(const DlnRay &castRay,
+                          QVector3D &intersectionPoint,
+                          QVector3D &localNormal,
+                          DlnColor &localColor) override;
 };
 
 }

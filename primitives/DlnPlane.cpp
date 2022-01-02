@@ -6,7 +6,10 @@ DlnPlane::DlnPlane() {}
 
 DlnPlane::~DlnPlane() {}
 
-bool DlnPlane::testIntersection(const DlnRay &castRay, QVector3D &intersectionPoint, QVector3D &localNormal, QColor &localColor)
+bool DlnPlane::testIntersection(const DlnRay &castRay,
+                                QVector3D &intersectionPoint,
+                                QVector3D &localNormal,
+                                DlnColor &localColor)
 {
     // copy the ray and apply backward transform
     DlnRay bckRay = m_transform.apply(castRay, dln::BCKTFORM);

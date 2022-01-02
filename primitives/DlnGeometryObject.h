@@ -1,14 +1,17 @@
 #ifndef DLNGEOMETRYOBJECT_H
 #define DLNGEOMETRYOBJECT_H
 
+#include "DlnColor.h"
 #include "DlnRay.h"
 #include "DlnTransform.h"
 
 #include <QVector3D>
-#include <QColor>
 
 namespace dln
 {
+
+class DlnLightObject;
+class DlnMaterialObject;
 
 class DlnGeometryObject
 {
@@ -19,14 +22,25 @@ public:
     virtual bool testIntersection(const DlnRay &castRay,
                                   QVector3D &intersectionPoint,
                                   QVector3D &localNormal,
-                                  QColor &localColor) = 0;
+                                  DlnColor &localColor) = 0;
 
     void setTransform(const DlnTransform &transform);
-    void setBaseColor(const QColor &baseColor);
+    void setBaseColor(const DlnColor &baseColor);
+    bool setMaterial(const QSharedPointer<DlnMaterialObject> &material);
+
+    DlnColor baseColor() const;
+
+    DlnColor computeColor(const QVector<QSharedPointer<DlnGeometryObject>> &geometryObjects,
+                          const QVector<QSharedPointer<DlnLightObject>> &lightObjects,
+                          const QSharedPointer<DlnGeometryObject> &currentObject,
+                          const DlnRay &castRay,
+                          const QVector3D &intersectionPoint,
+                          const QVector3D &localNormal);
 
 protected:
-    QColor m_baseColor {Qt::green};
+    DlnColor m_baseColor {Qt::green};
     DlnTransform m_transform;
+    QSharedPointer<DlnMaterialObject> m_material;
 };
 
 }

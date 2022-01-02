@@ -1,6 +1,6 @@
 QT += quick gui
 
-CONFIG += c++14 qmltypes
+CONFIG += c++14 qmltypes -0fast
 
 QML_IMPORT_NAME = com.dln.rendering
 QML_IMPORT_MAJOR_VERSION = 1
@@ -11,6 +11,7 @@ QML_IMPORT_MAJOR_VERSION = 1
 
 SOURCES += \
         main.cpp \
+        DlnColor.cpp \
         DlnCamera.cpp \
         DlnImage.cpp \
         DlnRay.cpp \
@@ -21,9 +22,12 @@ SOURCES += \
         primitives/DlnPlane.cpp \
         primitives/DlnSphere.cpp \
         lights/DlnLightObject.cpp \
-        lights/DlnPointLight.cpp
+        lights/DlnPointLight.cpp \
+        materials/DlnMaterialObject.cpp \
+        materials/DlnSimpleMaterial.cpp
 
 HEADERS += \
+        DlnColor.h \
         DlnCamera.h \
         DlnImage.h \
         DlnRay.h \
@@ -34,7 +38,9 @@ HEADERS += \
         primitives/DlnPlane.h \
         primitives/DlnSphere.h \
         lights/DlnLightObject.h \
-        lights/DlnPointLight.h
+        lights/DlnPointLight.h \
+        materials/DlnMaterialObject.h \
+        materials/DlnSimpleMaterial.h
 
 RESOURCES += qml.qrc
 
