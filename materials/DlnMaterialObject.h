@@ -32,13 +32,24 @@ public:
                                         const QVector3D &localNormal,
                                         const DlnColor &localColor);
 
+    DlnColor computeReflectionColor(const QVector<QSharedPointer<DlnGeometryObject>> &geometryObjects,
+                                    const QVector<QSharedPointer<DlnLightObject>> &lightObjects,
+                                    const QSharedPointer<DlnGeometryObject> &currentObject,
+                                    const DlnRay &incidentRay,
+                                    const QVector3D &intersectionPoint,
+                                    const QVector3D &localNormal);
+
     bool castRay(const DlnRay &castRay,
                  const QVector<QSharedPointer<DlnGeometryObject>> &geometryObjects,
                  const QSharedPointer<DlnGeometryObject> &currentObject,
-                 const QSharedPointer<DlnGeometryObject> &object,
+                 QSharedPointer<DlnGeometryObject> &object,
                  QVector3D &intersectionPoint,
                  QVector3D &localNormal,
                  DlnColor &localColor);
+
+//private:
+    inline static int m_maxReflectionRays;
+    inline static int m_reflectionRayCount;
 };
 
 }

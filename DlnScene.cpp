@@ -20,20 +20,32 @@ DlnScene::DlnScene() {
 
     // create some material
     QSharedPointer<DlnSimpleMaterial> simpleMaterial(new DlnSimpleMaterial());
-    simpleMaterial->setColor(DlnColor(Qt::red));
+    simpleMaterial->setColor(DlnColor(Qt::gray));
     simpleMaterial->setReflictivity(0.5);
     simpleMaterial->setShininess(10.0);
+
+    QSharedPointer<DlnSimpleMaterial> simpleMaterial2(new DlnSimpleMaterial());
+    simpleMaterial2->setColor(DlnColor(Qt::red));
+    simpleMaterial2->setReflictivity(0.5);
+    simpleMaterial2->setShininess(10.0);
+
+    QSharedPointer<DlnSimpleMaterial> simpleMaterial3(new DlnSimpleMaterial());
+    simpleMaterial3->setColor(DlnColor(Qt::red));
+    simpleMaterial3->setReflictivity(0.5);
+    simpleMaterial3->setShininess(10.0);
 
     // create test objects
     QSharedPointer<DlnSphere> sphere1(new DlnSphere());
     sphere1->setMaterial(simpleMaterial);
+    sphere1->setBaseColor(DlnColor(Qt::red));
     m_geometryObjects.push_back(sphere1);
 
     QSharedPointer<DlnSphere> sphere2(new DlnSphere());
     DlnTransform sphere2Transform;
     sphere2Transform.setTransform(QVector3D(-1.5, 0.0, 0.5), QVector3D(0.0, 0.0, 0.0), QVector3D(0.5, 0.5, 0.5));
     sphere2->setTransform(sphere2Transform);
-    sphere2->setBaseColor(DlnColor(Qt::green));
+    sphere2->setBaseColor(DlnColor(Qt::blue));
+    sphere2->setMaterial(simpleMaterial3);
     m_geometryObjects.push_back(sphere2);
 
     QSharedPointer<DlnSphere> sphere3(new DlnSphere());
@@ -41,6 +53,7 @@ DlnScene::DlnScene() {
     sphere3Transform.setTransform(QVector3D(1.5, 0.0, 0.5), QVector3D(0.0, 0.0, 0.0), QVector3D(0.5, 0.5, 0.5));
     sphere3->setTransform(sphere3Transform);
     sphere3->setBaseColor(DlnColor(Qt::blue));
+    sphere3->setMaterial(simpleMaterial3);
     m_geometryObjects.push_back(sphere3);
 
     // create white box
@@ -48,7 +61,8 @@ DlnScene::DlnScene() {
     DlnTransform plane1Transform;
     plane1Transform.setTransform(QVector3D(0.0, 0.0, 1.0), QVector3D(0.0, 0.0, 0.0), QVector3D(2.5, 3.5, 2.5));
     plane1->setTransform(plane1Transform);
-    plane1->setBaseColor(DlnColor(Qt::white));
+    plane1->setBaseColor(DlnColor(Qt::red));
+    plane1->setMaterial(simpleMaterial2);
     m_geometryObjects.push_back(plane1);
 
     //QSharedPointer<DlnPlane> plane2(new DlnPlane());
@@ -78,15 +92,15 @@ DlnScene::DlnScene() {
     light1->setPosition(QVector3D(-10.0, -10.0, -10.0));
     m_lightObjects.push_back(light1);
 
-    QSharedPointer<DlnPointLight> light2(new DlnPointLight());
-    light2->setColor(DlnColor(Qt::white));
-    light2->setPosition(QVector3D(0.0, -10.0, -10.0));
-    m_lightObjects.push_back(light2);
+//    QSharedPointer<DlnPointLight> light2(new DlnPointLight());
+//    light2->setColor(DlnColor(Qt::white));
+//    light2->setPosition(QVector3D(0.0, -10.0, -10.0));
+//    m_lightObjects.push_back(light2);
 
-//    QSharedPointer<DlnPointLight> light3(new DlnPointLight());
-//    light3->setColor(DlnColor(Qt::white));
-//    light3->setPosition(QVector3D(10.0, -10.0, -10.0));
-//    m_lightObjects.push_back(light3);
+    QSharedPointer<DlnPointLight> light3(new DlnPointLight());
+    light3->setColor(DlnColor(Qt::white));
+    light3->setPosition(QVector3D(10.0, -10.0, -10.0));
+    m_lightObjects.push_back(light3);
 }
 
 void DlnScene::initialize(const QSizeF &viewSize)
@@ -106,9 +120,9 @@ bool DlnScene::render(DlnImage &outputImg)
     const float xFactor = 1.0 / (static_cast<float>(width) / 2.0);
     const float yFactor = 1.0 / (static_cast<float>(height) / 2.0);
 
-    for (int x = 0; x < width; ++x)
+    for (int y = 0; y < height; ++y)
     {
-        for (int y = 0; y < height; ++y)
+        for (int x = 0; x < width; ++x)
         {
             // normalize x and y
             const float normX = static_cast<float>(x) * xFactor - 1.0;
@@ -126,6 +140,7 @@ bool DlnScene::render(DlnImage &outputImg)
             // compute the illumination of the closest object
             if (castRay(cameraRay, object, intersectionPoint, localNormal, localColor))
             {
+                DlnMaterialObject::m_reflectionRayCount = 0;
                 const DlnColor color = object->computeColor(m_geometryObjects,
                                                             m_lightObjects,
                                                             object, // stupid thing

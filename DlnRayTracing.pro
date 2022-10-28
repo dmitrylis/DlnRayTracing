@@ -1,6 +1,6 @@
 QT += quick gui
 
-CONFIG += c++14 qmltypes -0fast
+CONFIG += c++17 qmltypes -0fast
 
 QML_IMPORT_NAME = com.dln.rendering
 QML_IMPORT_MAJOR_VERSION = 1

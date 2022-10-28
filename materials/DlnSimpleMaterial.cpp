@@ -41,6 +41,15 @@ DlnColor DlnSimpleMaterial::computeColor(const QVector<QSharedPointer<DlnGeometr
     // compute the diffuse component
     diffuseColor = computeDiffuseColor(geometryObjects, lightObjects, currentObject, intersectionPoint, localNormal, m_baseColor);
 
+    // compute the reflection component
+    if (m_reflictivity > 0.0)
+    {
+        reflectionlColor = computeReflectionColor(geometryObjects, lightObjects, currentObject, castRay, intersectionPoint, localNormal);
+    }
+
+    // combine reflection and diffuse components
+    materialColor = reflectionlColor * m_reflictivity + diffuseColor * (1.0 - m_reflictivity);
+
     // compute the specular component
     if (m_shininess > 0.0)
     {
@@ -48,7 +57,7 @@ DlnColor DlnSimpleMaterial::computeColor(const QVector<QSharedPointer<DlnGeometr
     }
 
     // add specular component to the final color
-    materialColor = diffuseColor + specularColor;
+    materialColor += specularColor;
 
     return materialColor;
 }
